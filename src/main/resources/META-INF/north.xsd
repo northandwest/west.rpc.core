@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://static.bucuoa.com/cutesource/schema/north"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://static.bucuoa.com/cutesource/schema/north"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+	<xsd:element name="provider">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="alias" type="xsd:string" use="required" />
+			<xsd:attribute name="class" type="xsd:string" use="optional" />
+			<xsd:attribute name="server" type="xsd:string" use="required" />
+			<xsd:attribute name="interface" type="xsd:string" use="required" />
+			<xsd:attribute name="ref" type="xsd:string" use="optional" />
+			<xsd:attribute name="version" type="xsd:string" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="consumer">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="alias" type="xsd:string" use="required" />
+			<xsd:attribute name="check" type="xsd:string" use="required" />
+			<xsd:attribute name="retries" type="xsd:string" use="required" />
+			<xsd:attribute name="timeout" type="xsd:string" use="required" />
+			<xsd:attribute name="interface" type="xsd:string" use="required" />
+			<xsd:attribute name="class" type="xsd:string" use="optional" />
+			<xsd:attribute name="url" type="xsd:string" use="optional" />
+			<xsd:attribute name="version" type="xsd:string" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="server">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="port" type="xsd:string" use="required" />
+			<xsd:attribute name="host" type="xsd:string" use="required" />
+			<xsd:attribute name="protocol" type="xsd:string" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="registry">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="address" type="xsd:string" use="required" />
+			<xsd:attribute name="type" type="xsd:string" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="application">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="key" type="xsd:string" use="required" />
+			<xsd:attribute name="description" type="xsd:string"
+				use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema> 
