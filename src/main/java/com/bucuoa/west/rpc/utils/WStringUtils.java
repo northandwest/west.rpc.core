@@ -14,6 +14,13 @@ public class WStringUtils {
     public static boolean isNotBlank(CharSequence cs) {
         return !isBlank(cs);
     }
+    public static boolean isEmpty(CharSequence cs) {
+        return isBlank(cs);
+    }
+    public static boolean isNotEmpty(CharSequence cs) {
+        return !isBlank(cs);
+    }
+    
     
     public static boolean isBlank(CharSequence cs) {
         int strLen;
