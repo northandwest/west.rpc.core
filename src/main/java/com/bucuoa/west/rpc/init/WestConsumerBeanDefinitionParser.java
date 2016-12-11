@@ -232,7 +232,11 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
                     } else {
                         reference = null;//保持住ref的null值
                     }
-                    beanDefinition.getPropertyValues().addPropertyValue("refBean", reference);
+				try {
+					beanDefinition.getPropertyValues().addPropertyValue("refBean", reference);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
                     break;
                 case 6: // parameters 解析子元素
 //                    parseParameters(element.getChildNodes(), beanDefinition);

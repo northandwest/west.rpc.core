@@ -20,7 +20,7 @@ public class RPCServerStub implements Server{
 //		this.register(EchoService.class, EchoServiceImpl.class);
 //		init() spring init
 		
-//		this.start();
+		this.start();
 	}
 	
 	private int port = Constants.PORT;
@@ -51,7 +51,7 @@ public class RPCServerStub implements Server{
 	@Override
 	public  void  call(Invocation invo) {
 		
-		String serviceName = invo.getClazzName();
+		String serviceName = "echoService";//invo.getClazzName();
 		
 		ProviderStubInvoker serviceInvoker = RemoteServiceCenter.getService(serviceName);
 		RequestMessage  requestMessage = new RequestMessage();
