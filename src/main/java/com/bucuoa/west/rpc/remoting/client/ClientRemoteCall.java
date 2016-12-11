@@ -33,7 +33,7 @@ public class ClientRemoteCall {
 				invocation.setClazzName(clazz.getCanonicalName());
 				invocation.setMethodName(method.getName());
 				invocation.setArgs(args);
-				
+//				invocation.setArgsType(argsType);
 				client.invoke(invocation);
 				
 				return invocation.getResult();

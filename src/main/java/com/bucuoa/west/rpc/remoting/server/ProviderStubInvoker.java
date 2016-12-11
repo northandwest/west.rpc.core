@@ -21,7 +21,29 @@ public class ProviderStubInvoker {
 		com.bucuoa.west.rpc.remoting.route.Invocation invocationBody = request.getInvocationBody();
 		ResponseMessage response = null;// filterChain.invoke(request);
 		// 得到结果
-		return response;
+		Object serviceBean = providerConfig.getRefBean();
+		
+		
+		Class<? extends Object> clazz = serviceBean.getClass();
+//		MethodBean method = invocationBody.getMethod();
+
+		Object result = null;
+		if (serviceBean != null) {
+			try {
+				
+				Method serverMethod = clazz.getMethod(invocationBody.getMethodName(), String.class);
+				result = serverMethod.invoke(serviceBean, invocationBody.getArgs());
+
+//				invo.setResult(result);
+			} catch (Throwable th) {
+				th.printStackTrace();
+			}
+		}
+		
+		ResponseMessage responseMessage = new ResponseMessage();
+		responseMessage.setResponse(result);
+		
+		return responseMessage;
 	}
 
 	public ResponseMessage call(Invocation invo) {
