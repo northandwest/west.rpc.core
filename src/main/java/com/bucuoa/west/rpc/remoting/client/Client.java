@@ -72,7 +72,7 @@ public class Client {
 		responseStream = new ObjectInputStream(request.getInputStream());
 
 		ResponseMessage result = (ResponseMessage) responseStream.readObject();
-		System.out.println("response ok!");
+//		System.out.println("response ok!==>"+result.getResponse());
 		invo.setResult(result.getResponse());
 
 		responseStream.close();
