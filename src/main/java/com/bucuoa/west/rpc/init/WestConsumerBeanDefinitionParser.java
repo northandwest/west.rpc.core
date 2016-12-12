@@ -17,6 +17,8 @@ import org.w3c.dom.NodeList;
 
 import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
+import com.bucuoa.west.rpc.remoting.server.ProviderStubInvoker;
+import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
 import com.bucuoa.west.rpc.utils.WStringUtils;
 
@@ -115,6 +117,11 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
 
 			if(ref != null && ref.length() > 0 )
 			{
+				
+//				ProviderStubInvoker service = RemoteServiceCenter.getService(id);
+				RemoteServiceCenter.setInterface(interfac3, id);
+//				RemoteServiceCenter.setService(interfac3, service);
+				
 //				if(parserContext.getRegistry().containsBeanDefinition(ref))
 //				{
 //					BeanDefinition refBeanDefinition = parserContext.getRegistry().getBeanDefinition(ref);
@@ -226,7 +233,7 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
                     if (WStringUtils.isNotBlank(value) ) {
                         BeanDefinition refBean = parserContext.getRegistry().getBeanDefinition(value);
                         if (!refBean.isSingleton() && beanClass == ProviderBean.class) {
-                            throw new IllegalStateException("[West RPC-21002]The exported service ref " + value + " must be singleton! Please set the " + value + " bean scope to singleton, eg: <bean id=\"" + value + "\" scope=\"singleton\" ...>");
+                            throw new IllegalStateException("[West RPC-211]The exported service ref " + value + " must be singleton! Please set the " + value + " bean scope to singleton, eg: <bean id=\"" + value + "\" scope=\"singleton\" ...>");
                         }
                         reference = new RuntimeBeanReference(value);
                     } else {

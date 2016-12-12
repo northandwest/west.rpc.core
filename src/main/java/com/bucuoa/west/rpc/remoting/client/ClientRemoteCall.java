@@ -30,7 +30,7 @@ public class ClientRemoteCall {
 //				MethodBean methodBean = new MethodBean(method.getName(), method.getParameterTypes());
 
 				Invocation invocation = new Invocation();
-				invocation.setClazzName(clazz.getCanonicalName());
+				invocation.setClazzName(clazz.getName());
 				invocation.setMethodName(method.getName());
 				invocation.setArgs(args);
 				invocation.setParameterTypes(method.getParameterTypes());

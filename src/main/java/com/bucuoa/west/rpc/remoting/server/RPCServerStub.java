@@ -52,9 +52,10 @@ public class RPCServerStub implements Server{
 	@Override
 	public  void  call(Invocation invo) {
 		
-		String serviceName = "echoService";//invo.getClazzName();
+		String interfaceName = invo.getClazzName();
 		
-		ProviderStubInvoker serviceInvoker = RemoteServiceCenter.getService(serviceName);
+		String beanid = RemoteServiceCenter.getInterface(interfaceName);
+		ProviderStubInvoker serviceInvoker = RemoteServiceCenter.getService(beanid);
 		RequestMessage  requestMessage = new RequestMessage();
 		requestMessage.setInvocationBody(invo);
 		invo.setResult(serviceInvoker.invoke(requestMessage).getResponse());
