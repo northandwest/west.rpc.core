@@ -2,44 +2,11 @@ package com.bucuoa.west.rpc.conf;
 
 import java.nio.charset.Charset;
 
-/**
- * Title:常量类<br>
- * <p/>
- * Description: 各种常量和枚举<br>
- * <p/>
- * Company: <a href=www.jd.com>京东</a><br>
- *
- * @author <a href=mailto:zhangjunfeng1@jd.com>张俊峰</a>
- * @author <a href=mailto:lixininfo@jd.com>李鑫</a>
- * @author <a href=mailto:zhanggeng@jd.com>章耿</a>
- */
+
 public class Constants {
 
-    /**
-     * SAF版本，内部版本
-     */
-    public static final int DEFAULT_SAF_VERSION = 210;
 
-    /**
-     * 当前JSF版本，例如：<br>
-     * 1.2.3-SNAPSHOT对应1230<br>
-     * 1.2.3正式版对应1231
-     */
-    public static final int JSF_VERSION = 1611;
-
-    /**
-     * 当前Build版本，每次发布修改  //FIXME
-     */
-    public static final String JSF_BUILD_VERSION = "1.6.1_201611031800";
-
-    /**
-     * JSF协议头的魔术位
-     public static final int MAGICCODE = 0xADCF;*/
-
-    /**
-     * JSF协议头的魔术位
-     */
-    public static final byte[] MAGICCODEBYTE = new byte[]{(byte) 0xAD, (byte) 0xCF};
+  
 
     /*---------消息类型开始-----------*/
     public static final int REQUEST_MSG = 1;
@@ -71,7 +38,7 @@ public class Constants {
     /**
      * zookeeper注册中心
      */
-    public static final String REGISTRY_PROTOCOL_ZK = "jdZooKeeper";
+    public static final String REGISTRY_PROTOCOL_ZK = "westZooKeeper";
     /**
      * xml文件注册中心
      */
@@ -79,7 +46,7 @@ public class Constants {
     /**
      * JSF注册中心
      */
-    public static final String REGISTRY_PROTOCOL_JSF = "jsfRegistry";
+    public static final String REGISTRY_PROTOCOL_JSF = "westrpcRegistry";
 
     /**
      * 随机
@@ -242,14 +209,14 @@ public class Constants {
     public final static int DEFAULT_CLIENT_CALLBACK_QUEUE = 256;
 
     /**
-     * 默认协议类型:jsf
+     * 默认协议类型:westrpc
      */
-    public final static ProtocolType DEFAULT_PROTOCOL_TYPE = ProtocolType.jsf;
+    public final static ProtocolType DEFAULT_PROTOCOL_TYPE = ProtocolType.westrpc;
 
     /**
-     * 默认协议:jsf
+     * 默认协议:westrpc
      */
-    public final static String DEFAULT_PROTOCOL = "jsf";
+    public final static String DEFAULT_PROTOCOL = "westrpc";
 
     /**
      * 默认序列话:msgpack
@@ -261,10 +228,6 @@ public class Constants {
      */
     public final static String DEFAULT_CODEC = "msgpack";
 
-    /**
-     * 代理类型：jdk
-     */
-    public final static String PROXY_JDK = "jdk";
 
     /**
      * 代理类型：javassist
@@ -547,9 +510,9 @@ public class Constants {
     public static final String CONFIG_KEY_PRIORITY = "priority";
 
     /**
-     * 配置key:jsfVersion
+     * 配置key:westrpcVersion
      */
-    public static final String CONFIG_KEY_JSFVERSION = "jsfVersion";
+    public static final String CONFIG_KEY_JSFVERSION = "westrpcVersion";
 
     /**
      * 配置key:crosslang 是否支持跨语言
@@ -715,19 +678,9 @@ public class Constants {
      */
     @Deprecated
     public static final String SETTING_JSON_SERIALIZE_FILL_EMPTY = "json.serialize.fill.empty";
-    /**
-     * 自定义设置：json序列化的时候，开启的特性
-     *
-     * @see com.jd.fastjson.serializer.SerializerFeature
-     * @since 1.6.0
-     */
+
     public static final String SETTING_JSON_SERIALIZER_FEATURES = "json.serializer.features";
-    /**
-     * 自定义设置：json解析的时候，开启的特性
-     *
-     * @see com.jd.fastjson.parser.Feature
-     * @since 1.6.0
-     */
+
     public static final String SETTING_JSON_PARSER_FEATURES = "json.parser.features";
     /**
      * 自定义设置: 是否忽略Consumer变化时最终的删除命令，默认false
@@ -735,11 +688,7 @@ public class Constants {
      * @since 1.6.0
      */
     public static final String SETTING_CONSUMER_PROVIDER_NULLABLE = "consumer.provider.nullable";
-    /**
-     * 自定义设置: 调用时是否传送app信息，默认true
-     *
-     * @since 1.6.0
-     */
+
     public static final String SETTING_INVOKE_SEND_APP = "invoke.send.app";
     /**
      * 自定义设置: 是否开启批量注册, 默认true
@@ -769,7 +718,7 @@ public class Constants {
 
         consumer(0),
         @Deprecated saf(1),
-        jsf(1),
+        westrpc(1),
         rest(2),
         dubbo(3),
         webservice(4),
@@ -793,7 +742,7 @@ public class Constants {
             ProtocolType p;
             switch (value) {
                 case 1:
-                    p = jsf;
+                    p = westrpc;
                     break;
                 case 2:
                     p = rest;
@@ -907,7 +856,7 @@ public class Constants {
         //methodName((byte) 4, String.class),
         callbackInsId((byte) 5, String.class), // 回调函数对应的实例id
         //compress((byte) 6, String.class),
-        jsfVersion((byte) 7, Short.class), // 客户端的JSF版本
+      
         srcLanguage((byte) 8, Byte.class), // 请求的语言（针对跨语言 1c++ 2lua）
         responseCode((byte) 9, Byte.class), // 返回结果（针对跨语言 0成功 1失败）
         ;
@@ -950,9 +899,7 @@ public class Constants {
                 /*case 6:
                     key = compress;
                     break;*/
-                case 7:
-                    key = jsfVersion;
-                    break;
+              
                 case 8:
                     key = srcLanguage;
                     break;
