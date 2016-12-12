@@ -2,6 +2,7 @@ package com.bucuoa.west.rpc.remoting.server;
 
 import java.util.concurrent.Semaphore;
 
+import com.bucuoa.west.rpc.remoting.comuication.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,7 @@ public class RPCServerStub implements Server{
 		ProviderStubInvoker serviceInvoker = RemoteServiceCenter.getService(serviceName);
 		RequestMessage  requestMessage = new RequestMessage();
 		requestMessage.setInvocationBody(invo);
-		serviceInvoker.invoke(requestMessage);
+		invo.setResult(serviceInvoker.invoke(requestMessage).getResponse());
 		
 //		String serviceBean = null;//RemoteServiceCenter.getService(serviceName);
 //		Object obj = null;//applicationContext.getBean(serviceBean);// RemoteServiceCenter.getService(serviceName);
