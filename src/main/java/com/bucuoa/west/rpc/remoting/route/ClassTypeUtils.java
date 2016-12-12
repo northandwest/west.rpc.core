@@ -6,26 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.bucuoa.west.rpc.conf.CommonUtils;
 
-/**
- * Title: 类型转换工具类<br>
- * <p/>
- * Description: 调用端时将类描述转换为字符串传输。服务端将字符串转换为具体的类<br>
- * <pre>
- *     保证传递的时候值为可阅读格式，而不是jvm格式（[Lxxx;）：
- *         普通：java.lang.String、java.lang.String[]
- *         基本类型：int、int[]
- *         匿名类：com.jd.jsf.Xxx$1、com.jd.jsf.Xxx$1[]
- *         本地类：com.jd.jsf.Xxx$1Local、com.jd.jsf.Xxx$1Local[]
- *         成员类：com.jd.jsf.Xxx$Member、com.jd.jsf.Xxx$Member[]
- *         内部类：com.jd.jsf.Inner、com.jd.jsf.Inner[]
- *     同时Class.forName的时候又会解析出Class。
- *     </pre>
- *
- * Company: <a href=www.jd.com>京东</a><br>
- *
- * @author <a href=mailto:lixininfo@jd.com>李鑫</a>
- * @author <a href=mailto:zhanggeng@jd.com>章耿</a>
- */
 public class ClassTypeUtils {
 
     /**

@@ -1,8 +1,3 @@
-/**
- * ClassLoaderUtils.java Created on 2013年10月29日 上午9:33:01
- * <p/>
- * Copyright (c) 2013 by www.jd.com.
- */
 package com.bucuoa.west.rpc.remoting.route;
 
 import java.lang.reflect.Constructor;
@@ -10,15 +5,6 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Title: ClassLoader相关工具类<br>
- *
- * Description: 封装了classloader获取，class.forName，newInstance操作，以后如果切换ClassLoader也无妨<br>
- *
- * Company: <a href=www.jd.com>京东</a><br>
- *
- * @author <a href=mailto:zhanggeng@jd.com>章耿</a>
- */
 public class ClassLoaderUtils {
 
     private static Set<Class> primitiveSet = new HashSet<Class>();

@@ -6,32 +6,29 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.bucuoa.west.rpc.conf.Constants;
 
+public class MessageHeader implements Cloneable, Serializable {
 
+	private Integer length; // 总长度 包含magiccode + header + body
 
-public class MessageHeader implements Cloneable,Serializable{
+	private Short headerLength;
 
-    private Integer length; // 总长度 包含magiccode + header + body
+	private int protocolType = Constants.DEFAULT_PROTOCOL_TYPE.value();
 
-    private Short headerLength;
+	private int codecType = Constants.DEFAULT_CODEC_TYPE.value();
 
-    private int protocolType = Constants.DEFAULT_PROTOCOL_TYPE.value();
+	private int msgType;
 
-    private int codecType = Constants.DEFAULT_CODEC_TYPE.value();
+	private int msgId;
 
-    private int msgType;
+	private byte compressType = Constants.CompressType.NONE.value();
 
-    private int msgId;
+	private Map<Byte, Object> keysMap = new ConcurrentHashMap<Byte, Object>();
 
-    private byte compressType = Constants.CompressType.NONE.value();
+	public Map<Byte, Object> getAttrMap() {
+		return this.keysMap;
+	}
 
-    private Map<Byte,Object> keysMap = new ConcurrentHashMap<Byte,Object>();
-
-    public Map<Byte,Object> getAttrMap(){
-        return this.keysMap;
-    }
-
-	public MessageHeader setValues(int protocolType, int codecType,
-			int msgType, int compressType, int msgId) {
+	public MessageHeader setValues(int protocolType, int codecType, int msgType, int compressType, int msgId) {
 		this.msgId = msgId;
 		this.codecType = codecType;
 		this.msgType = msgType;
@@ -40,62 +37,62 @@ public class MessageHeader implements Cloneable,Serializable{
 		return this;
 	}
 
-    public MessageHeader copyHeader(MessageHeader header){
-        this.msgId = header.msgId;
-        this.codecType = header.codecType;
-        this.msgType = header.msgType;
-        this.protocolType = header.getProtocolType();
-        this.compressType = header.getCompressType();
-        this.length = header.getLength();
-        this.headerLength = header.getHeaderLength();
-        Map<Byte,Object> tempMap = header.getAttrMap();
-        for(Map.Entry<Byte,Object> entry:tempMap.entrySet()){
-            this.keysMap.put(entry.getKey(),entry.getValue());
-        }
-        return this;
-    }
+	public MessageHeader copyHeader(MessageHeader header) {
+		this.msgId = header.msgId;
+		this.codecType = header.codecType;
+		this.msgType = header.msgType;
+		this.protocolType = header.getProtocolType();
+		this.compressType = header.getCompressType();
+		this.length = header.getLength();
+		this.headerLength = header.getHeaderLength();
+		Map<Byte, Object> tempMap = header.getAttrMap();
+		for (Map.Entry<Byte, Object> entry : tempMap.entrySet()) {
+			this.keysMap.put(entry.getKey(), entry.getValue());
+		}
+		return this;
+	}
 
-    public Short getHeaderLength() {
-        return headerLength;
-    }
+	public Short getHeaderLength() {
+		return headerLength;
+	}
 
-    public void setHeaderLength(Short headerLength) {
-        this.headerLength = headerLength;
-    }
+	public void setHeaderLength(Short headerLength) {
+		this.headerLength = headerLength;
+	}
 
-    public int getMsgId() {
-        return msgId;
-    }
+	public int getMsgId() {
+		return msgId;
+	}
 
-    public void setMsgId(int msgId) {
-        this.msgId = msgId;
-    }
+	public void setMsgId(int msgId) {
+		this.msgId = msgId;
+	}
 
-    public Integer getLength() {
-        return length;
-    }
+	public Integer getLength() {
+		return length;
+	}
 
-    public void setLength(Integer length) {
-        this.length = length;
-    }
+	public void setLength(Integer length) {
+		this.length = length;
+	}
 
-    public int getCodecType() {
-        return codecType;
-    }
+	public int getCodecType() {
+		return codecType;
+	}
 
-    public void setCodecType(int codecType) {
-        this.codecType = codecType;
-    }
+	public void setCodecType(int codecType) {
+		this.codecType = codecType;
+	}
 
-    public int getMsgType() {
-        return msgType;
-    }
+	public int getMsgType() {
+		return msgType;
+	}
 
-    public void setMsgType(int msgType) {
-        this.msgType = msgType;
-    }
-    
-    /**
+	public void setMsgType(int msgType) {
+		this.msgType = msgType;
+	}
+
+	/**
 	 * @return the compressType
 	 */
 	public byte getCompressType() {
@@ -103,115 +100,114 @@ public class MessageHeader implements Cloneable,Serializable{
 	}
 
 	/**
-	 * @param compressType the compressType to set
+	 * @param compressType
+	 *            the compressType to set
 	 */
 	public void setCompressType(byte compressType) {
 		this.compressType = compressType;
 	}
 
 	public int getProtocolType() {
-        return protocolType;
-    }
+		return protocolType;
+	}
 
-    public void setProtocolType(int protocolType) {
-        this.protocolType = protocolType;
-    }
+	public void setProtocolType(int protocolType) {
+		this.protocolType = protocolType;
+	}
 
-    public void addHeadKey(Constants.HeadKey key, Object value) {
-        if (!key.getType().isInstance(value)) { // 检查类型
-            throw new IllegalArgumentException("type mismatch of key:" + key.getNum() + ", expect:"
-                    + key.getType().getName() + ", actual:" + value.getClass().getName());
-        }
-        keysMap.put(key.getNum(), value);
-    }
+	public void addHeadKey(Constants.HeadKey key, Object value) {
+		if (!key.getType().isInstance(value)) { // 检查类型
+			throw new IllegalArgumentException("type mismatch of key:" + key.getNum() + ", expect:"
+					+ key.getType().getName() + ", actual:" + value.getClass().getName());
+		}
+		keysMap.put(key.getNum(), value);
+	}
 
-    public Object removeByKey(Constants.HeadKey key){
-        return keysMap.remove(key.getNum());
-    }
+	public Object removeByKey(Constants.HeadKey key) {
+		return keysMap.remove(key.getNum());
+	}
 
-    public Object getAttrByKey(Constants.HeadKey key){
-        return keysMap.get(key.getNum());
+	public Object getAttrByKey(Constants.HeadKey key) {
+		return keysMap.get(key.getNum());
 
-    }
+	}
 
-    public void setValuesInKeyMap(Map<Byte,Object> valueMap){
-        this.keysMap.putAll(valueMap);
+	public void setValuesInKeyMap(Map<Byte, Object> valueMap) {
+		this.keysMap.putAll(valueMap);
 
-    }
+	}
 
-    public int getAttrMapSize(){
-        int mapSize = keysMap.size();
-        return mapSize;
-    }
+	public int getAttrMapSize() {
+		int mapSize = keysMap.size();
+		return mapSize;
+	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof MessageHeader))
+			return false;
 
+		MessageHeader that = (MessageHeader) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MessageHeader)) return false;
+		if (codecType != that.codecType)
+			return false;
+		if (headerLength != null ? !headerLength.equals(that.headerLength) : that.headerLength != null)
+			return false;
+		if (msgId != that.msgId)
+			return false;
+		if (msgType != that.msgType)
+			return false;
+		if (protocolType != that.protocolType)
+			return false;
+		if (compressType != that.compressType)
+			return false;
+		if (length != null ? !length.equals(that.length) : that.length != null)
+			return false;
 
-        MessageHeader that = (MessageHeader) o;
+		return true;
+	}
 
-        if (codecType != that.codecType) return false;
-        if (headerLength != null ? !headerLength.equals(that.headerLength) : that.headerLength != null) return false;
-        if (msgId != that.msgId) return false;
-        if (msgType != that.msgType) return false;
-        if (protocolType != that.protocolType) return false;
-        if (compressType != that.compressType) return false;
-        if (length != null ? !length.equals(that.length) : that.length != null) return false;
+	@Override
+	public int hashCode() {
+		int result = msgId;
+		result = 31 * result + (length != null ? length.hashCode() : 0);
+		result = 31 * result + codecType;
+		result = 31 * result + msgType;
+		result = 31 * result + protocolType;
+		result = 31 * result + compressType;
+		result = 31 * result + (headerLength != null ? headerLength.hashCode() : 0);
+		return result;
+	}
 
-        return true;
-    }
+	@Override
+	public String toString() {
+		String keymapStr = "";
+		for (Map.Entry<Byte, Object> entry : keysMap.entrySet()) {
+			keymapStr = keymapStr + " " + entry.getKey().toString() + " : " + entry.getValue().toString();
+		}
 
-    @Override
-    public int hashCode() {
-        int result = msgId;
-        result = 31 * result + (length != null ? length.hashCode() : 0);
-        result = 31 * result + codecType;
-        result = 31 * result + msgType;
-        result = 31 * result + protocolType;
-        result = 31 * result + compressType;
-        result = 31 * result + (headerLength != null ? headerLength.hashCode() : 0);
-        return result;
-    }
+		return "MessageHeader{" + "msgId=" + msgId + ", length=" + length + ", codecType=" + codecType + ", msgType="
+				+ msgType + ", protocolType=" + protocolType + ", compressType=" + compressType + ", headerLength="
+				+ headerLength + ", keysMap=" + keymapStr + "}";
+	}
 
-    @Override
-    public String toString() {
-        String keymapStr = "";
-        for(Map.Entry<Byte,Object> entry:keysMap.entrySet()){
-            keymapStr = keymapStr+" "+ entry.getKey().toString()+" : "+entry.getValue().toString();
-        }
-
-        return "MessageHeader{" +
-                "msgId=" + msgId +
-                ", length=" + length +
-                ", codecType=" + codecType +
-                ", msgType=" + msgType +
-                ", protocolType=" + protocolType +
-                ", compressType=" + compressType +
-                ", headerLength=" + headerLength +
-                ", keysMap=" + keymapStr +
-                "}";
-    }
-
-    /**
-     * 克隆后和整体原来不是一个对象，
-     * 属性相同，修改当前属性不会改变原来的
-     * map和原来是一个对象，修改当前map也会改原来的
-     *
-     * @return
-     * @throws CloneNotSupportedException
-     */
-    @Override
+	/**
+	 * 克隆后和整体原来不是一个对象， 属性相同，修改当前属性不会改变原来的 map和原来是一个对象，修改当前map也会改原来的
+	 *
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	@Override
 	public MessageHeader clone() {
-        MessageHeader header = null;
-        try {
-            header = (MessageHeader) super.clone();
-        } catch (CloneNotSupportedException e) {
-            header = new MessageHeader();
-            header.copyHeader(this);
-        }
-        return header;
-    }
+		MessageHeader header = null;
+		try {
+			header = (MessageHeader) super.clone();
+		} catch (CloneNotSupportedException e) {
+			header = new MessageHeader();
+			header.copyHeader(this);
+		}
+		return header;
+	}
 }

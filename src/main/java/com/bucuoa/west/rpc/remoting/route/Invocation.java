@@ -5,22 +5,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lixin
- * Date: 14-3-11
- * Time: 下午6:08
- * To change this template use File | Settings | File Templates.
- *对Invocation 的一次映射； 　
- *
- */
 public class Invocation implements Serializable{
 
     private String clazzName;
 
     private String methodName;
+    Class<?>[] parameterTypes;
+    
+    public Class<?>[] getParameterTypes() {
+		return parameterTypes;
+	}
 
-    private String alias;
+	public void setParameterTypes(Class<?>[] parameterTypes) {
+		this.parameterTypes = parameterTypes;
+	}
+
+	private String alias;
 
     private String[] argsType; //考虑优化class？
 

@@ -6,8 +6,7 @@ import com.bucuoa.west.rpc.init.ProviderBean;
 import com.bucuoa.west.rpc.remoting.comuication.BaseMessage;
 import com.bucuoa.west.rpc.remoting.comuication.RequestMessage;
 import com.bucuoa.west.rpc.remoting.comuication.ResponseMessage;
-import com.bucuoa.west.rpc.remoting.protocal.Invocation;
-import com.bucuoa.west.rpc.remoting.protocal.MethodBean;
+import com.bucuoa.west.rpc.remoting.route.Invocation;
 
 public class ProviderStubInvoker {
 	private ProviderBean providerConfig;
@@ -18,20 +17,18 @@ public class ProviderStubInvoker {
 
 	public ResponseMessage invoke(BaseMessage requestMessage) {
 		RequestMessage request = (RequestMessage) requestMessage;
-		com.bucuoa.west.rpc.remoting.route.Invocation invocationBody = request.getInvocationBody();
-		ResponseMessage response = null;// filterChain.invoke(request);
+		Invocation invocationBody = request.getInvocationBody();
+		ResponseMessage response = null;
 		// 得到结果
 		Object serviceBean = providerConfig.getRefBean();
 		
-		
 		Class<? extends Object> clazz = serviceBean.getClass();
-//		MethodBean method = invocationBody.getMethod();
 
 		Object result = null;
 		if (serviceBean != null) {
 			try {
 				
-				Method serverMethod = clazz.getMethod(invocationBody.getMethodName(), String.class);
+				Method serverMethod = clazz.getMethod(invocationBody.getMethodName(), invocationBody.getParameterTypes());
 				result = serverMethod.invoke(serviceBean, invocationBody.getArgs());
 
 //				invo.setResult(result);
@@ -40,13 +37,13 @@ public class ProviderStubInvoker {
 			}
 		}
 		
-		ResponseMessage responseMessage = new ResponseMessage();
-		responseMessage.setResponse(result);
+		response = new ResponseMessage();
+		response.setResponse(result);
 		
-		return responseMessage;
+		return response;
 	}
 
-	public ResponseMessage call(Invocation invo) {
+/*	public ResponseMessage call(Invocation invo) {
 //		String ref = providerConfig.getRef();
 		Object serviceBean = providerConfig.getRefBean();
 		String serviceName = invo.getInterfaces().getName();
@@ -73,5 +70,5 @@ public class ProviderStubInvoker {
 		responseMessage.setResponse(result);
 		
 		return responseMessage;
-	}
+	}*/
 }

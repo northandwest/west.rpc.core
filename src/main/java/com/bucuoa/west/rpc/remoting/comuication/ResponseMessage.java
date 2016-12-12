@@ -3,17 +3,18 @@ package com.bucuoa.west.rpc.remoting.comuication;
 public class ResponseMessage extends BaseMessage {
 
 	private Object response;
-    private Throwable exception; //error when the error has been declare in the interface
+	private Throwable exception; // error when the error has been declare in the
+									// interface
 
-    public ResponseMessage(boolean initHeader) {
-        super(initHeader);
-    }
+	public ResponseMessage(boolean initHeader) {
+		super(initHeader);
+	}
 
-    public ResponseMessage() {
-        super(true);
-    }
+	public ResponseMessage() {
+		super(true);
+	}
 
-    public Object getResponse() {
+	public Object getResponse() {
 		return response;
 	}
 
@@ -22,12 +23,12 @@ public class ResponseMessage extends BaseMessage {
 	}
 
 	public Throwable getException() {
-        return exception;
-    }
+		return exception;
+	}
 
-    public void setException(Throwable exception) {
-        this.exception = exception;
-    }
+	public void setException(Throwable exception) {
+		this.exception = exception;
+	}
 
 	/**
 	 * @return the error
@@ -36,12 +37,9 @@ public class ResponseMessage extends BaseMessage {
 		return exception != null;
 	}
 
-    @Override
-    public String toString() {
-        return "ResponseMessage{" +
-                "header="+ getMsgHeader() +
-                "response=" + response +
-                ", exception=" + exception +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "ResponseMessage{" + "header=" + getMsgHeader() + "response=" + response + ", exception=" + exception
+				+ '}';
+	}
 }
