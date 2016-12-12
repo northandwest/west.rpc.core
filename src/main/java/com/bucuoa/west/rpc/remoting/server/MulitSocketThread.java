@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bucuoa.west.rpc.core.Constants;
+import com.bucuoa.west.rpc.remoting.comuication.ResponseMessage;
 import com.bucuoa.west.rpc.remoting.protocal.RpcClose;
 import com.bucuoa.west.rpc.remoting.protocal.RpcConnect;
 import com.bucuoa.west.rpc.remoting.route.Invocation;
@@ -73,9 +74,11 @@ public class MulitSocketThread implements Runnable {
 						logger.info("3 client thread: {} execute:{}", name, invocation);
 
 						serverStub.call(invocation);
-
+						ResponseMessage response = new ResponseMessage();
+						response.setResponse(invocation.getResult());
+						
 						responseStream = new ObjectOutputStream(request.getOutputStream());
-						responseStream.writeObject(invocation);
+						responseStream.writeObject(response);
 						responseStream.flush();
 					}
 				} else if (object instanceof RpcClose) {

@@ -1,5 +1,6 @@
 package com.bucuoa.west.rpc.remoting.comuication;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -7,7 +8,7 @@ import com.bucuoa.west.rpc.conf.Constants;
 
 
 
-public class MessageHeader implements Cloneable{
+public class MessageHeader implements Cloneable,Serializable{
 
     private Integer length; // 总长度 包含magiccode + header + body
 

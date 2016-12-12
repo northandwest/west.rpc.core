@@ -1,5 +1,7 @@
 package com.bucuoa.west.rpc.remoting.comuication;
 
+import java.io.Serializable;
+
 import com.bucuoa.west.rpc.conf.Constants;
 
 import io.netty.buffer.ByteBuf;
@@ -7,7 +9,7 @@ import io.netty.channel.Channel;
 
 
 
-public abstract class BaseMessage {
+public abstract class BaseMessage implements  Serializable{
 
     private  MessageHeader msgHeader;
 
