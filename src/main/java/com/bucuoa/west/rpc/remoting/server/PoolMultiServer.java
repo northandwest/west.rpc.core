@@ -10,7 +10,7 @@ public class PoolMultiServer {
 	private int listenerPort;// 监听端口号
 	private ServerSocket serverSocket;
 	private Server server;
-	private Semaphore sp;
+//	private Semaphore sp;
 
 	/**
 	 * 构造方法
@@ -20,11 +20,11 @@ public class PoolMultiServer {
 	 * @param listenerPort
 	 *            ：监听端口号
 	 */
-	public PoolMultiServer(int maxConnections, int listenerPort,Server server,Semaphore sp) {
+	public PoolMultiServer(int maxConnections, int listenerPort,Server server) {
 		this.maxConnections = maxConnections;
 		this.listenerPort = listenerPort;
 		this.server = server;
-		this.sp = sp;
+//		this.sp = sp;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class PoolMultiServer {
 	 *            ：套接字
 	 */
 	public void handleConnection(Socket socket) {
-		MulitSocketThread.processRequest(socket,server,sp);
+		MulitSocketThread.processRequest(socket,server);
 	}
 
 	public void setUpHandlers() {

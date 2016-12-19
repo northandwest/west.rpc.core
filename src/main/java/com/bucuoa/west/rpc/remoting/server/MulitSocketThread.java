@@ -25,15 +25,15 @@ public class MulitSocketThread implements Runnable {
 
 	private static Server serverStub;
 	private Socket request = null;
-	private static Semaphore sp;
+//	private static Semaphore sp;
 
 	public MulitSocketThread() {
 		// logger.info(" init thread :{}",Thread.currentThread().getName());
 	}
 
-	public static void processRequest(Socket socket, Server server2, Semaphore sp2) {
+	public static void processRequest(Socket socket, Server server2) {
 		serverStub = server2;
-		sp = sp2;
+//		sp = sp2;
 
 		synchronized (pool) {
 //			if (pool.size() <= Constants.SERVER_SOCKET_THREAD_MAX)
@@ -136,17 +136,17 @@ public class MulitSocketThread implements Runnable {
 
 			String name = Thread.currentThread().getName();
 
-			try {
-				sp.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			logger.debug("线程{}进入，已有{}并发", name, (Constants.SERVER_SOCKET_THREAD_SEMPHORE_MAX - sp.availablePermits()));
+//			try {
+//				sp.acquire();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			logger.debug("线程{}进入，已有{}并发", name, (Constants.SERVER_SOCKET_THREAD_SEMPHORE_MAX - sp.availablePermits()));
 
 			handleConnection();
 
-			sp.release();
-			logger.debug("线程{}离开 ，已有{}并发", name, (Constants.SERVER_SOCKET_THREAD_SEMPHORE_MAX - sp.availablePermits()));
+//			sp.release();
+//			logger.debug("线程{}离开 ，已有{}并发", name, (Constants.SERVER_SOCKET_THREAD_SEMPHORE_MAX - sp.availablePermits()));
 		}
 	}
 

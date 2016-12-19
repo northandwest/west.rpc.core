@@ -84,7 +84,7 @@ public class RPCServerStub implements Server{
 	public void start() {
 		logger.info("start rpc server");
 //		listener = new ServerListener(this);
-		PoolMultiServer poolMultiServer = new PoolMultiServer(Constants.CLIENT_SOCKET_THREAD_MAX, Constants.PORT,this,sp);
+		PoolMultiServer poolMultiServer = new PoolMultiServer(Constants.CLIENT_SOCKET_THREAD_MAX, Constants.PORT,this);
 		poolMultiServer.setUpHandlers();
 		poolMultiServer.acceptConnection();
 //		this.isRuning = true;
