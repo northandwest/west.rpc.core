@@ -58,13 +58,15 @@ public class RpcFramework {
 		});
 		
 		try {
-			ChannelFuture future = bootstrap.bind(ip, port).sync();
-			future.channel().closeFuture().sync();
-		} catch (InterruptedException e) {
+			bootstrap.bind(ip, port);
+			
+//			ChannelFuture future = bootstrap.bind(ip, port).sync();
+//			future.channel().closeFuture().sync();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
-			bossGroup.shutdownGracefully();
-			workerGroup.shutdownGracefully();
+//			bossGroup.shutdownGracefully();
+//			workerGroup.shutdownGracefully();
 		}
 
 		System.out.println("TCP服务器已启动");

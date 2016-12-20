@@ -6,14 +6,14 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 
 import com.bucuoa.west.rpc.tags.Registry;
 
 
 public class RegistryBean <T> extends Registry implements InitializingBean, DisposableBean, ApplicationContextAware,BeanNameAware{
 
+	private ApplicationContext context;
+	
 	@Override
 	public void setBeanName(String arg0) {
 		
@@ -21,8 +21,8 @@ public class RegistryBean <T> extends Registry implements InitializingBean, Disp
 
 
 	@Override
-	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
-		
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+		this.context = context;
 	}
 
 	@Override
@@ -34,6 +34,7 @@ public class RegistryBean <T> extends Registry implements InitializingBean, Disp
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		
 		
 	}
 

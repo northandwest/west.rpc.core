@@ -13,34 +13,37 @@ import org.springframework.context.ApplicationListener;
 
 import com.bucuoa.west.rpc.tags.Server;
 
-
-public class ServerBean <T> extends Server implements InitializingBean, DisposableBean, ApplicationContextAware,  BeanNameAware{
+public class ServerBean<T> extends Server
+		implements InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware {
 	static Logger logger = LoggerFactory.getLogger(ServerBean.class);
+	private ApplicationContext context;
 
 	@Override
 	public void setBeanName(String name) {
 		logger.debug("setBeanName=>{}", name);
 	}
 
-
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
-//		RPCServerStub serverstub = new RPCServerStub();
-		System.out.println("hello init server bean event");
-//		StartServerEvent event = new StartServerEvent(context);
-//		context.publishEvent(event);
+
+		logger.debug("hello init server bean event");
+
+		this.context = context;
+		
+	
 	}
 
 	@Override
 	public void destroy() throws Exception {
-		
+
 	}
-
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		
+		logger.debug("hello init server bean event afterPropertiesSet");
+//		StartServerEvent event = new StartServerEvent(this);
+
+//		this.context.publishEvent(event);
 	}
 
 }
