@@ -3,23 +3,24 @@ package com.bucuoa.west.rpc.remoting.server;
 import java.lang.reflect.Method;
 
 import com.bucuoa.west.rpc.init.ProviderBean;
-import com.xxx.rpc.common.bean.RpcRequest;
-import com.xxx.rpc.common.bean.RpcResponse;
+import com.bucuoa.west.rpc.remoting.comuication.BaseMessage;
+import com.bucuoa.west.rpc.remoting.comuication.RequestMessage;
+import com.bucuoa.west.rpc.remoting.comuication.ResponseMessage;
+import com.bucuoa.west.rpc.remoting.route.Invocation;
 
-public class ProviderStubInvoker {
+public class ProviderStubInvoker2 {
 	private ProviderBean providerConfig;
 
-	public  ProviderStubInvoker(ProviderBean providerConfig) {
+	public  ProviderStubInvoker2(ProviderBean providerConfig) {
 		this.providerConfig = providerConfig;
 	}
 
-	public Object invoke(RpcRequest requestMessage) {
-		RpcRequest request = (RpcRequest) requestMessage;
-//		Invocation invocationBody = request.getInvocationBody();
-//		RpcResponse response = null;
+	public ResponseMessage invoke(BaseMessage requestMessage) {
+		RequestMessage request = (RequestMessage) requestMessage;
+		Invocation invocationBody = request.getInvocationBody();
+		ResponseMessage response = null;
 		// 得到结果
 		Object serviceBean = providerConfig.getRefBean();
-		Object[] parameters = request.getParameters();
 		
 		Class<? extends Object> clazz = serviceBean.getClass();
 
@@ -27,8 +28,8 @@ public class ProviderStubInvoker {
 		if (serviceBean != null) {
 			try {
 				
-				Method serverMethod = clazz.getMethod(requestMessage.getMethodName(), requestMessage.getParameterTypes());
-				result = serverMethod.invoke(serviceBean, parameters);
+				Method serverMethod = clazz.getMethod(invocationBody.getMethodName(), invocationBody.getParameterTypes());
+				result = serverMethod.invoke(serviceBean, invocationBody.getArgs());
 
 //				invo.setResult(result);
 			} catch (Throwable th) {
@@ -36,10 +37,10 @@ public class ProviderStubInvoker {
 			}
 		}
 		
-//		response = new ResponseMessage();
-//		response.setResponse(result);
+		response = new ResponseMessage();
+		response.setResponse(result);
 		
-		return result;
+		return response;
 	}
 
 /*	public ResponseMessage call(Invocation invo) {
