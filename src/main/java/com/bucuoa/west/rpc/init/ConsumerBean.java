@@ -23,6 +23,7 @@ import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
 import com.bucuoa.west.rpc.tags.Consumer;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
+import com.xxx.rpc.client.RpcProxy;
 
 public class ConsumerBean<T> extends Consumer implements InitializingBean,FactoryBean, DisposableBean, ApplicationContextAware, BeanNameAware {
 	
@@ -113,10 +114,12 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 		Class<?> clazz = ReflectUtils.forName(this.interfaceName);
 		this.interfaceClass = clazz;
 		
-		 Client client = new Client(host, port);
+//		 Client client = new Client(host, port);
 		
-		Object proxy = ClientRemoteCall.getProxy(clazz,client);
-		return proxy;
+		 Object obj = new RpcProxy(host).create(this.interfaceClass);
+		 
+//		Object proxy = ClientRemoteCall.getProxy(clazz,client);
+		return obj;
 	}
 
 	@Override

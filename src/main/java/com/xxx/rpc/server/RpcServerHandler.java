@@ -1,5 +1,6 @@
 package com.xxx.rpc.server;
 
+import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
 import com.xxx.rpc.common.bean.RpcRequest;
 import com.xxx.rpc.common.bean.RpcResponse;
 import com.xxx.rpc.common.util.StringUtil;
@@ -13,20 +14,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-/**
- * RPC 服务端处理器（用于处理 RPC 请求）
- *
- * @author huangyong
- * @since 1.0.0
- */
+
 public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServerHandler.class);
 
-    private final Map<String, Object> handlerMap;
+//    private final Map<String, Object> handlerMap;
 
-    public RpcServerHandler(Map<String, Object> handlerMap) {
-        this.handlerMap = handlerMap;
+    public RpcServerHandler() {
+       
     }
 
     @Override
@@ -36,6 +32,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
         response.setRequestId(request.getRequestId());
         try {
             Object result = handle(request);
+            
             response.setResult(result);
         } catch (Exception e) {
             LOGGER.error("handle result failure", e);
@@ -52,7 +49,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
         if (StringUtil.isNotEmpty(serviceVersion)) {
             serviceName += "-" + serviceVersion;
         }
-        Object serviceBean = handlerMap.get(serviceName);
+        Object serviceBean = RemoteServiceCenter.getInterface(serviceName);//handlerMap.get(serviceName);
         if (serviceBean == null) {
             throw new RuntimeException(String.format("can not find service bean by key: %s", serviceName));
         }
@@ -68,6 +65,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
         // 使用 CGLib 执行反射调用
         FastClass serviceFastClass = FastClass.create(serviceClass);
         FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName, parameterTypes);
+        
         return serviceFastMethod.invoke(serviceBean, parameters);
     }
 
