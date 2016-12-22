@@ -1,11 +1,6 @@
 package com.xxx.rpc.common.bean;
 
-/**
- * 封装 RPC 响应
- *
- * @author huangyong
- * @since 1.0.0
- */
+
 public class RpcResponse {
 
     private String requestId;

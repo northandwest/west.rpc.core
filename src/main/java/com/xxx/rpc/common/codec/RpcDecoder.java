@@ -7,12 +7,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
 
-/**
- * RPC 解码器
- *
- * @author huangyong
- * @since 1.0.0
- */
+
 public class RpcDecoder extends ByteToMessageDecoder {
 
     private Class<?> genericClass;
@@ -34,6 +29,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
         }
         byte[] data = new byte[dataLength];
         in.readBytes(data);
-        out.add(SerializationUtil.deserialize(data, genericClass));
+        Object deserialize = SerializationUtil.deserialize(data, genericClass);
+		out.add(deserialize);
     }
 }

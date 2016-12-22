@@ -1,5 +1,7 @@
 package com.xxx.rpc.server;
 
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -16,6 +18,7 @@ import com.xxx.rpc.registry.ServiceRegistry;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
@@ -69,6 +72,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		 boolean flag = Boolean.FALSE;
+		 
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -89,10 +94,42 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 			bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 			// 获取 RPC 服务器的 IP 地址与端口号
 			String[] addressArray = StringUtil.split(serviceAddress, ":");
-			String ip = addressArray[0];
-			int port = Integer.parseInt(addressArray[1]);
+	
+			final String ip = addressArray[0];
+			final int port = Integer.parseInt(addressArray[1]);
+			System.out.println("server started on HOST:"+ip+" port:"+port);
+			
+			LOGGER.debug("server started on HOST:{} port:{}",ip, port);
+
 			// 启动 RPC 服务器
-			ChannelFuture future = bootstrap.bind(ip, port).sync();
+			ChannelFuture future = bootstrap.bind(ip, port);
+			
+			ChannelFuture channelFuture = future.addListener(new ChannelFutureListener() {
+
+		            @Override
+		            public void operationComplete(ChannelFuture future) throws Exception {
+		                if (future.isSuccess()) {
+		                	LOGGER.info("Server have success bind to {}:{}", ip, port);
+
+		                } else {
+		                	LOGGER.error("Server fail bind to {}:{}", ip, port);
+		                	
+		                    throw new Exception("Server start fail !", future.cause());
+		                }
+
+		            }
+		        });
+
+		        try {
+		            channelFuture.await(5000,TimeUnit.MILLISECONDS);
+		            if(channelFuture.isSuccess()){
+		                flag = Boolean.TRUE;
+		            }
+
+		        } catch (InterruptedException e) {
+		        	LOGGER.error(e.getMessage(),e);
+		        }
+		        
 			// 注册 RPC 服务地址
 			// if (serviceRegistry != null) {
 			// for (String interfaceName : handlerMap.keySet()) {
@@ -101,9 +138,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 			// serviceAddress);
 			// }
 			// }
-			LOGGER.debug("server started on port {}", port);
 			// 关闭 RPC 服务器
-			future.channel().closeFuture().sync();
+//			future.channel().closeFuture().sync();
 		} finally {
 			workerGroup.shutdownGracefully();
 			bossGroup.shutdownGracefully();

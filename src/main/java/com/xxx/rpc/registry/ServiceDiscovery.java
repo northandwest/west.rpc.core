@@ -1,11 +1,6 @@
 package com.xxx.rpc.registry;
 
-/**
- * 服务发现接口
- *
- * @author huangyong
- * @since 1.0.0
- */
+
 public interface ServiceDiscovery {
 
     /**
