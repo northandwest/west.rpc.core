@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>bucuoa.com</groupId>
 	<artifactId>west.rpc.core</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>rpc</name>
 
 	<properties>
@@ -101,14 +101,6 @@
 			<groupId>com.101tec</groupId>
 			<artifactId>zkclient</artifactId>
 			<version>${version.zkclient}</version>
-			<exclusions>
-				
-				<exclusion>
-					<artifactId>zookeeper</artifactId>
-					<groupId>org.apache.zookeeper</groupId>
-				</exclusion>
-			
-			</exclusions>
 		</dependency>
 
 		<!-- Apache Commons Lang -->
