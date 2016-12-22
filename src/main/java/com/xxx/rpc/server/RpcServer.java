@@ -27,7 +27,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class RpcServer implements ApplicationContextAware, InitializingBean {
+public class RpcServer  {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
 
@@ -52,26 +52,13 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 		this.serviceAddress = serviceAddress;
 		this.serviceRegistry = serviceRegistry;
 	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-//		// 扫描带有 RpcService 注解的类并初始化 handlerMap 对象
-//		Map<String, Object> serviceBeanMap = ctx.getBeansWithAnnotation(RpcService.class);
-//		if (MapUtils.isNotEmpty(serviceBeanMap)) {
-//			for (Object serviceBean : serviceBeanMap.values()) {
-//				RpcService rpcService = serviceBean.getClass().getAnnotation(RpcService.class);
-//				String serviceName = rpcService.value().getName();
-//				String serviceVersion = rpcService.version();
-//				if (StringUtil.isNotEmpty(serviceVersion)) {
-//					serviceName += "-" + serviceVersion;
-//				}
-//				handlerMap.put(serviceName, serviceBean);
-//			}
-//		}
+	
+	public boolean stop() throws Exception {
+		//todo 关闭
+		return true;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	public boolean start() throws Exception {
 		 boolean flag = Boolean.FALSE;
 		 
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -141,8 +128,10 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 			// 关闭 RPC 服务器
 //			future.channel().closeFuture().sync();
 		} finally {
-			workerGroup.shutdownGracefully();
-			bossGroup.shutdownGracefully();
+//			workerGroup.shutdownGracefully();
+//			bossGroup.shutdownGracefully();
 		}
+		
+		return flag;
 	}
 }

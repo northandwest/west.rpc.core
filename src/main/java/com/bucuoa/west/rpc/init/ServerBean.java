@@ -8,10 +8,9 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 
 import com.bucuoa.west.rpc.tags.Server;
+import com.xxx.rpc.server.RpcServer;
 
 public class ServerBean<T> extends Server
 		implements InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware {
@@ -42,7 +41,8 @@ public class ServerBean<T> extends Server
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("hello init server bean event afterPropertiesSet");
 //		StartServerEvent event = new StartServerEvent(this);
-
+		new RpcServer().start();
+		
 //		this.context.publishEvent(event);
 	}
 
