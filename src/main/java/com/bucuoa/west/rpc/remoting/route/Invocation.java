@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bucuoa.west.rpc.utils.ClassTypeUtils;
+
 public class Invocation implements Serializable{
 
     private String clazzName;

@@ -11,19 +11,16 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.bucuoa.west.rpc.conf.ConfigSingleton;
 import com.bucuoa.west.rpc.core.Constants;
-import com.bucuoa.west.rpc.remoting.client.Client;
-import com.bucuoa.west.rpc.remoting.client.ClientRemoteCall;
 import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
+import com.bucuoa.west.rpc.remoting.client.netty.RpcProxy;
 import com.bucuoa.west.rpc.tags.Consumer;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
-import com.xxx.rpc.client.RpcProxy;
 
 public class ConsumerBean<T> extends Consumer implements InitializingBean,FactoryBean, DisposableBean, ApplicationContextAware, BeanNameAware {
 	
