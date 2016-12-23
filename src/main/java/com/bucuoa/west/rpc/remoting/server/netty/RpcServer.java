@@ -5,16 +5,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.registry.ServiceRegistry;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcDecoder;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcEncoder;
+import com.bucuoa.west.rpc.serializer.ProtostuffSerializer;
+import com.bucuoa.west.rpc.serializer.Serializer;
 import com.bucuoa.west.rpc.utils.StringUtil;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -27,12 +25,14 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class RpcServer  {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
 
 	private String serviceAddress;
+	private Serializer serializer;
 
 	private ServiceRegistry serviceRegistry;
 
@@ -60,7 +60,10 @@ public class RpcServer  {
 	}
 
 	public boolean start() throws Exception {
-		 boolean flag = Boolean.FALSE;
+		
+		serializer = new ProtostuffSerializer();
+		
+		boolean flag = Boolean.FALSE;
 		 
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -73,8 +76,9 @@ public class RpcServer  {
 				@Override
 				public void initChannel(SocketChannel channel) throws Exception {
 					ChannelPipeline pipeline = channel.pipeline();
-					pipeline.addLast(new RpcDecoder(RpcRequest.class)); // 解码RPC请求
-					pipeline.addLast(new RpcEncoder(RpcResponse.class)); // 编码 RPC响应
+					pipeline.addLast(new RpcDecoder(RpcRequest.class,serializer)); // 解码RPC请求
+					pipeline.addLast(new RpcEncoder(RpcResponse.class,serializer)); // 编码 RPC响应
+					pipeline.addLast(new LengthFieldBasedFrameDecoder(65535,0,4,-4,0)); //粘包问题
 					pipeline.addLast(new RpcServerHandler()); // 处理RPC请求
 				}
 			});

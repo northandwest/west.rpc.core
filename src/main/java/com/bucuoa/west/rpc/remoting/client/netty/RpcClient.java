@@ -4,6 +4,8 @@ import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcDecoder;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcEncoder;
+import com.bucuoa.west.rpc.serializer.ProtostuffSerializer;
+import com.bucuoa.west.rpc.serializer.Serializer;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -19,6 +21,7 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
 
     private final String host;
     private final int port;
+	private Serializer serializer;
 
     private RpcResponse response;
 
@@ -39,6 +42,9 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
     }
 
     public RpcResponse send(RpcRequest request) throws Exception {
+    	
+    	serializer = new ProtostuffSerializer();
+    	
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             // 创建并初始化 Netty 客户端 Bootstrap 对象
@@ -49,8 +55,8 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
                 @Override
                 public void initChannel(SocketChannel channel) throws Exception {
                     ChannelPipeline pipeline = channel.pipeline();
-                    pipeline.addLast(new RpcEncoder(RpcRequest.class)); // 编码 RPC 请求
-                    pipeline.addLast(new RpcDecoder(RpcResponse.class)); // 解码 RPC 响应
+                    pipeline.addLast(new RpcEncoder(RpcRequest.class,serializer)); // 编码 RPC 请求
+                    pipeline.addLast(new RpcDecoder(RpcResponse.class,serializer)); // 解码 RPC 响应
                     pipeline.addLast(RpcClient.this); // 处理 RPC 响应
                 }
             });
