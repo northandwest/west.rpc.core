@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
-import com.bucuoa.west.rpc.init.ProviderBean;
+import com.bucuoa.west.rpc.spring.ProviderBean;
 
 public class ProviderStubInvoker {
 	private ProviderBean providerConfig;

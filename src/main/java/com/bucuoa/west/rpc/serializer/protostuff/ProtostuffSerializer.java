@@ -1,4 +1,6 @@
-package com.bucuoa.west.rpc.serializer;
+package com.bucuoa.west.rpc.serializer.protostuff;
+
+import com.bucuoa.west.rpc.serializer.Serializer;
 
 public class ProtostuffSerializer implements  Serializer{
 

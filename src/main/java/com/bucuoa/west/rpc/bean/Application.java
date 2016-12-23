@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.tags;
+package com.bucuoa.west.rpc.bean;
 
 public class Application {
 	private String id;

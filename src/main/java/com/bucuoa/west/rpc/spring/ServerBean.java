@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.init;
+package com.bucuoa.west.rpc.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.bucuoa.west.rpc.bean.Server;
 import com.bucuoa.west.rpc.remoting.server.netty.RpcServer;
-import com.bucuoa.west.rpc.tags.Server;
 
 public class ServerBean<T> extends Server
 		implements InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware {

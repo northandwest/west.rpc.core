@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.init;
+package com.bucuoa.west.rpc.spring;
 
 import java.lang.reflect.Method;
 
@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import com.bucuoa.west.rpc.bean.Provider;
 import com.bucuoa.west.rpc.remoting.server.ProviderStubInvoker;
 import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
-import com.bucuoa.west.rpc.tags.Provider;
 
 public class ProviderBean<T> extends Provider implements InitializingBean, DisposableBean, ApplicationContextAware, ApplicationListener, BeanNameAware {
 	

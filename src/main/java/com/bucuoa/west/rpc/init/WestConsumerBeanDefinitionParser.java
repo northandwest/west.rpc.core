@@ -19,6 +19,11 @@ import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
 import com.bucuoa.west.rpc.remoting.server.ProviderStubInvoker;
 import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
+import com.bucuoa.west.rpc.spring.ApplicationBean;
+import com.bucuoa.west.rpc.spring.ConsumerBean;
+import com.bucuoa.west.rpc.spring.ProviderBean;
+import com.bucuoa.west.rpc.spring.RegistryBean;
+import com.bucuoa.west.rpc.spring.ServerBean;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
 import com.bucuoa.west.rpc.utils.WStringUtils;
 

@@ -4,8 +4,8 @@ import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcDecoder;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcEncoder;
-import com.bucuoa.west.rpc.serializer.ProtostuffSerializer;
 import com.bucuoa.west.rpc.serializer.Serializer;
+import com.bucuoa.west.rpc.serializer.protostuff.ProtostuffSerializer;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;

@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.init;
+package com.bucuoa.west.rpc.spring.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

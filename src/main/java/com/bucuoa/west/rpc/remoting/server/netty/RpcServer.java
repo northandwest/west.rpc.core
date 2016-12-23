@@ -11,8 +11,8 @@ import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.registry.ServiceRegistry;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcDecoder;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcEncoder;
-import com.bucuoa.west.rpc.serializer.ProtostuffSerializer;
 import com.bucuoa.west.rpc.serializer.Serializer;
+import com.bucuoa.west.rpc.serializer.protostuff.ProtostuffSerializer;
 import com.bucuoa.west.rpc.utils.StringUtil;
 
 import io.netty.bootstrap.ServerBootstrap;

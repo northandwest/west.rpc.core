@@ -2,6 +2,12 @@ package com.bucuoa.west.rpc.init;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
+import com.bucuoa.west.rpc.spring.ApplicationBean;
+import com.bucuoa.west.rpc.spring.ConsumerBean;
+import com.bucuoa.west.rpc.spring.ProviderBean;
+import com.bucuoa.west.rpc.spring.RegistryBean;
+import com.bucuoa.west.rpc.spring.ServerBean;
+
 
 public class InitNamespaceHandler extends NamespaceHandlerSupport {
 	public void init() {

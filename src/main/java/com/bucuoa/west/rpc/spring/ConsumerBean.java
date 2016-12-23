@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.init;
+package com.bucuoa.west.rpc.spring;
 
 import java.lang.reflect.Method;
 
@@ -14,12 +14,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import com.bucuoa.west.rpc.bean.Consumer;
 import com.bucuoa.west.rpc.conf.ConfigSingleton;
 import com.bucuoa.west.rpc.core.Constants;
 import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
 import com.bucuoa.west.rpc.remoting.client.netty.RpcProxy;
-import com.bucuoa.west.rpc.tags.Consumer;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
 
 public class ConsumerBean<T> extends Consumer implements InitializingBean,FactoryBean, DisposableBean, ApplicationContextAware, BeanNameAware {

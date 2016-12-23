@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.tags;
+package com.bucuoa.west.rpc.bean;
 
 //注册中心
 public class Registry {

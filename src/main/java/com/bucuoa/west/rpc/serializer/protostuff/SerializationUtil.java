@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.serializer;
+package com.bucuoa.west.rpc.serializer.protostuff;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

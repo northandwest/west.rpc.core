@@ -1,4 +1,4 @@
-package com.bucuoa.west.rpc.init;
+package com.bucuoa.west.rpc.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
-import com.bucuoa.west.rpc.tags.Application;
+import com.bucuoa.west.rpc.bean.Application;
 
 
 public class ApplicationBean <T> extends Application implements InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware{
