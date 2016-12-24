@@ -1,5 +1,8 @@
  package com.bucuoa.west.rpc.remoting.server.netty;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.remoting.server.ProviderStubInvoker;
@@ -9,19 +12,11 @@ import com.bucuoa.west.rpc.utils.StringUtil;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import net.sf.cglib.reflect.FastClass;
-import net.sf.cglib.reflect.FastMethod;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 
 public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServerHandler.class);
-
-//    private final Map<String, Object> handlerMap;
 
     public RpcServerHandler() {
        
@@ -51,32 +46,11 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
         if (StringUtil.isNotEmpty(serviceVersion)) {
             serviceName += "-" + serviceVersion;
         }
-//        Object serviceBean = RemoteServiceCenter.getInterface(serviceName);//handlerMap.get(serviceName);
 		
 		String beanid = RemoteServiceCenter.getInterface(serviceName);
 		ProviderStubInvoker serviceInvoker = RemoteServiceCenter.getService(beanid);
 		
 		return serviceInvoker.invoke(request);
-		
-//		Object serviceBean = serviceInvoker.invoke(requestMessage);
-		
-//        if (serviceBean == null) {
-//            throw new RuntimeException(String.format("can not find service bean by key: %s", serviceName));
-//        }
-//        // 获取反射调用所需的参数
-//        Class<?> serviceClass = serviceBean.getClass();
-//        String methodName = request.getMethodName();
-//        Class<?>[] parameterTypes = request.getParameterTypes();
-//        Object[] parameters = request.getParameters();
-//        // 执行反射调用
-////        Method method = serviceClass.getMethod(methodName, parameterTypes);
-////        method.setAccessible(true);
-////        return method.invoke(serviceBean, parameters);
-//        // 使用 CGLib 执行反射调用
-//        FastClass serviceFastClass = FastClass.create(serviceClass);
-//        FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName, parameterTypes);
-//        
-//        return serviceFastMethod.invoke(serviceBean, parameters);
     }
 
     @Override

@@ -1,5 +1,4 @@
-package com.bucuoa.west.rpc.spring.task;
-//package com.bucuoa.west.rpc.init;
+//package com.bucuoa.west.rpc.spring.task;
 //
 //import org.springframework.context.ApplicationEvent;
 //

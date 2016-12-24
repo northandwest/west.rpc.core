@@ -41,7 +41,8 @@ public class ServerBean<T> extends Server
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("hello init server bean event afterPropertiesSet");
 //		StartServerEvent event = new StartServerEvent(this);
-		new RpcServer().start();
+		String host = super.getHost();
+		new RpcServer(host).start();
 		
 //		this.context.publishEvent(event);
 	}

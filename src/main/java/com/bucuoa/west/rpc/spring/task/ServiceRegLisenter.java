@@ -1,9 +1,7 @@
-package com.bucuoa.west.rpc.spring.task;
-//package com.bucuoa.west.rpc.init;
+//package com.bucuoa.west.rpc.spring.task;
 //
 //import org.springframework.context.ApplicationListener;
 //
-//import com.bucuoa.west.rpc.remoting.server.RPCServerStub;
 //import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
 ////@Component
 //public class ServiceRegLisenter implements ApplicationListener<ServiceRegEvent> {

@@ -10,4 +10,7 @@ public interface ServiceRegistry {
      * @param serviceAddress 服务地址
      */
     void register(String serviceName, String serviceAddress);
+    
+    String discover(String serviceName);
+
 }

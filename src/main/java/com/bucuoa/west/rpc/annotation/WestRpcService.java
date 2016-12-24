@@ -1,4 +1,4 @@
- package com.bucuoa.west.rpc.remoting.server.netty;
+ package com.bucuoa.west.rpc.annotation;
 
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface RpcService {
+public @interface WestRpcService {
 
     /**
      * 服务接口类

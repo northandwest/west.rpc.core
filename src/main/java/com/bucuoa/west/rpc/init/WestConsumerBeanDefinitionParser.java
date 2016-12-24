@@ -10,14 +10,12 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
-import com.bucuoa.west.rpc.remoting.server.ProviderStubInvoker;
 import com.bucuoa.west.rpc.remoting.server.RemoteServiceCenter;
 import com.bucuoa.west.rpc.spring.ApplicationBean;
 import com.bucuoa.west.rpc.spring.ConsumerBean;
@@ -160,7 +158,7 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
 //				
 //			}
 		}else 	if (ApplicationBean.class.equals(beanClass)) {
-			String className = "com.bucuoa.west.rpc.init.ApplicationBean";
+			String className = beanClass.getName();
 			
 			if (className != null && className.length() > 0) {
 				Class<?> clazz = ReflectUtils.forName(className);
@@ -176,7 +174,7 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
 //				return classDefinition;
 			}
 		}else 	if (RegistryBean.class.equals(beanClass)) {
-			String className = "com.bucuoa.west.rpc.init.RegistryBean";
+			String className = beanClass.getName();
 			
 			if (className != null && className.length() > 0) {
 				Class<?> clazz = ReflectUtils.forName(className);
@@ -192,7 +190,7 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
 //				return classDefinition;
 			}
 		}else 	if (ServerBean.class.equals(beanClass)) {
-			String className = "com.bucuoa.west.rpc.init.ServerBean";
+			String className = beanClass.getName();
 			
 			if (className != null && className.length() > 0) {
 				Class<?> clazz = ReflectUtils.forName(className);
@@ -268,9 +266,9 @@ public class WestConsumerBeanDefinitionParser implements BeanDefinitionParser {
 //                    break;
 //                case 13:
 //                    break;
-                case 14: // server
-//                    parseMultiRef(property, value, beanDefinition, parserContext);
-                    break;
+//                case 14: // server
+////                    parseMultiRef(property, value, beanDefinition, parserContext);
+//                    break;
                 case 15: // filter
 //                    parseFilters(property, value, beanDefinition, parserContext);
                     break;
