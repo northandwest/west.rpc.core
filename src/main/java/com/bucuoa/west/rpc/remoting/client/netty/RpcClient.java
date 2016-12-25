@@ -70,7 +70,7 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
             // 返回 RPC 响应对象
             return response;
         } finally {
-            group.shutdownGracefully();
+//            group.shutdownGracefully();
         }
     }
 }

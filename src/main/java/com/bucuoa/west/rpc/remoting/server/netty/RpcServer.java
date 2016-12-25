@@ -14,6 +14,7 @@ import com.bucuoa.west.rpc.serializer.protostuff.ProtostuffSerializer;
 import com.bucuoa.west.rpc.utils.StringUtil;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
@@ -21,8 +22,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.pool.ChannelPoolHandler;
-import io.netty.channel.pool.FixedChannelPool;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -79,6 +78,10 @@ public class RpcServer {
 		});
 		bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
 		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+		
+		bootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+		bootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);//内存池
+		
 		// 获取 RPC 服务器的 IP 地址与端口号
 		String[] addressArray = StringUtil.split(serviceAddress, ":");
 
