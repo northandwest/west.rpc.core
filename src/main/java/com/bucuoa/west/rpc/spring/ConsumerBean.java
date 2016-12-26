@@ -21,6 +21,7 @@ import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
 import com.bucuoa.west.rpc.remoting.client.netty.RpcProxy;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
+import com.newlandframework.rpc.netty.MessageSendExecutor;
 
 public class ConsumerBean<T> extends Consumer implements InitializingBean,FactoryBean, DisposableBean, ApplicationContextAware, BeanNameAware {
 	
@@ -92,38 +93,44 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 
 	@Override
 	public Object getObject() throws Exception {
-		String consumer = ConsumerRegister.getConsumer(beanName);
-		ConfigSingleton confInstance = ConfigSingleton.getInstance();
-		
-		String consumerUrl = DirectServiceAddressRegister.getConsumerUrl(beanName);
-		
-		String host = "";
-		if(consumerUrl !=null && !consumerUrl.equals(""))
-		{
-			host = consumerUrl;
-		}else
-		{
-			host = confInstance.getProperties("server_host");
-		}
-		
-		int port = Constants.PORT;
-		this.interfaceName = consumer;
-		Class<?> clazz = ReflectUtils.forName(this.interfaceName);
-		this.interfaceClass = clazz;
-		
-//		 Client client = new Client(host, port);
-		
-		 Object obj = new RpcProxy(host).create(this.interfaceClass);
+//		String consumer = ConsumerRegister.getConsumer(beanName);
+//		ConfigSingleton confInstance = ConfigSingleton.getInstance();
+//		
+//		String consumerUrl = DirectServiceAddressRegister.getConsumerUrl(beanName);
+//		
+//		String host = "";
+//		if(consumerUrl !=null && !consumerUrl.equals(""))
+//		{
+//			host = consumerUrl;
+//		}else
+//		{
+//			host = confInstance.getProperties("server_host");
+//		}
+//		
+//		int port = Constants.PORT;
+//		this.interfaceName = consumer;
+//		Class<?> clazz = ReflectUtils.forName(this.interfaceName);
+//		this.interfaceClass = clazz;
+//		
+////		 Client client = new Client(host, port);
+//		
+//		 Object obj = new RpcProxy(host).create(this.interfaceClass);
 		 
+		 return MessageSendExecutor.getInstance().execute(getObjectType());
 //		Object proxy = ClientRemoteCall.getProxy(clazz,client);
-		return obj;
+//		return obj;
 	}
 
 	@Override
 	public Class<?> getObjectType() {
 //		Class<?> clazz = ReflectUtils.forName("com.bucuoa.west.rpc.service.EchoService");
-	
-		return this.interfaceClass;
+	     try {
+	            return this.getClass().getClassLoader().loadClass(interfaceName);
+	        } catch (ClassNotFoundException e) {
+	            System.err.println("spring analyze fail!");
+	        }
+	        return null;
+//		return this.interfaceClass;
 	}
 
 	@Override
