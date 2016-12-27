@@ -48,10 +48,14 @@ public class RpcServerLoader {
     volatile private static RpcServerLoader rpcServerLoader;
     private final static String DELIMITER = ":";
     private RpcSerializeProtocol serializeProtocol = RpcSerializeProtocol.JDKSERIALIZE;
+    
     private final static int parallel = RpcSystemConfig.PARALLEL * 2;
     private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(parallel);
+    
     private static ListeningExecutorService threadPoolExecutor = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
+    
     private MessageSendHandler messageSendHandler = null;
+    
     private Lock lock = new ReentrantLock();
     private Condition connectStatus = lock.newCondition();
     private Condition handlerStatus = lock.newCondition();

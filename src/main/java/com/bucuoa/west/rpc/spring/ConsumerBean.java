@@ -21,7 +21,9 @@ import com.bucuoa.west.rpc.remoting.client.ConsumerRegister;
 import com.bucuoa.west.rpc.remoting.client.DirectServiceAddressRegister;
 import com.bucuoa.west.rpc.remoting.client.netty.RpcProxy;
 import com.bucuoa.west.rpc.utils.ReflectUtils;
+import com.newlandframework.rpc.event.ClientStopEventListener;
 import com.newlandframework.rpc.netty.MessageSendExecutor;
+import com.newlandframework.rpc.serialize.RpcSerializeProtocol;
 
 public class ConsumerBean<T> extends Consumer implements InitializingBean,FactoryBean, DisposableBean, ApplicationContextAware, BeanNameAware {
 	
@@ -29,7 +31,7 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 
 	private transient String beanName;
 	private transient String interfaceName;
-	private transient Class<?> interfaceClass;
+//	private transient Class<?> interfaceClass;
 
 //	private transient ApplicationContext applicationContext;
 	private static transient ApplicationContext SPRING_CONTEXT;
@@ -89,11 +91,15 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("afterPropertiesSet=>{}", System.currentTimeMillis());
+		
+		  MessageSendExecutor.getInstance().setRpcServerLoader(this.getUrl(), RpcSerializeProtocol.valueOf("protostuff"));
+	        ClientStopEventListener listener = new ClientStopEventListener();
+//	        eventBus.register(listener);
 	}
 
 	@Override
 	public Object getObject() throws Exception {
-//		String consumer = ConsumerRegister.getConsumer(beanName);
+		String consumer = ConsumerRegister.getConsumer(beanName);
 //		ConfigSingleton confInstance = ConfigSingleton.getInstance();
 //		
 //		String consumerUrl = DirectServiceAddressRegister.getConsumerUrl(beanName);
@@ -108,7 +114,7 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 //		}
 //		
 //		int port = Constants.PORT;
-//		this.interfaceName = consumer;
+		this.interfaceName = consumer;
 //		Class<?> clazz = ReflectUtils.forName(this.interfaceName);
 //		this.interfaceClass = clazz;
 //		
@@ -124,10 +130,16 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 	@Override
 	public Class<?> getObjectType() {
 //		Class<?> clazz = ReflectUtils.forName("com.bucuoa.west.rpc.service.EchoService");
+		if(interfaceName ==null)
+		{
+			return null;
+		}
 	     try {
-	            return this.getClass().getClassLoader().loadClass(interfaceName);
+	            Class<?> loadClass = this.getClass().getClassLoader().loadClass(interfaceName);
+				return loadClass;
 	        } catch (ClassNotFoundException e) {
-	            System.err.println("spring analyze fail!");
+//	            System.err.println("spring analyze fail!");
+	            logger.debug("spring analyze fail!");
 	        }
 	        return null;
 //		return this.interfaceClass;
