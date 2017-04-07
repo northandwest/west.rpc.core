@@ -12,6 +12,8 @@ import com.bucuoa.west.rpc.utils.StringUtil;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.FutureListener;
 
 public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
@@ -63,6 +65,23 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 		}
 		// 写入 RPC 响应对象并自动关闭连接
 		ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+		
+//        ctx.writeAndFlush(response).addListener(new FutureListener() {
+//            @Override
+//            public void operationComplete(Future future) throws Exception {
+//                if (future.isSuccess()) {
+//                    if (LOGGER.isTraceEnabled()) {
+//                    	LOGGER.trace("Response write back {}", future.isSuccess());
+//                    }
+//                    
+//                } else if (!future.isSuccess()) {
+//                    Throwable throwable = future.cause();
+//                    LOGGER.error("[west rpc-23009]Failed to send response to {} for msg id: {}, Cause by:",
+//                    		throwable,"","");
+//                }
+//            }
+//        });
+        
 	}
 
 	private Object handle(RpcRequest request) throws Exception {
