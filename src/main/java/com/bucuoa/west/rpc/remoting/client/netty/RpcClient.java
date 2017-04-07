@@ -44,13 +44,15 @@ public class RpcClient {
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(group);
 			bootstrap.channel(NioSocketChannel.class);
+			final RpcClientHandler rpcClientHandler = new RpcClientHandler();
+
 			bootstrap.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				public void initChannel(SocketChannel channel) throws Exception {
 					ChannelPipeline pipeline = channel.pipeline();
 					pipeline.addLast(new RpcEncoder(RpcRequest.class, serializer)); // 编码RPC请求
 					pipeline.addLast(new RpcDecoder(RpcResponse.class, serializer)); // 解码RPC响应
-					pipeline.addLast(new RpcClientHandler()); // 处理 RPC 响应
+					pipeline.addLast(rpcClientHandler); // 处理 RPC 响应
 				}
 			});
 			bootstrap.option(ChannelOption.TCP_NODELAY, true);
@@ -60,9 +62,9 @@ public class RpcClient {
 
 			Channel channel = future.channel();
 			channel.writeAndFlush(request).sync();
-			// channel.closeFuture().sync();
+			channel.closeFuture().sync();
 			// 返回 RPC 响应对象
-			return response;
+			return rpcClientHandler.getResponse();
 		} finally {
 			// group.shutdownGracefully();
 		}

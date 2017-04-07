@@ -11,10 +11,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RpcClientHandler.class);
-
+	private RpcResponse response;
+	
 	@Override
 	public void channelRead0(ChannelHandlerContext ctx, RpcResponse response) throws Exception {
-//		this.response = response;
+		this.response = response;
 		LOGGER.debug("response channelRead0: {}", response.getResult());
 	}
 
@@ -49,6 +50,10 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
 		super.handlerRemoved(ctx);
 		LOGGER.debug(" RpcClientHandler handlerRemoved:{}",ctx.name());
 
+	}
+
+	public RpcResponse getResponse() {
+		return response;
 	}
 
 	
