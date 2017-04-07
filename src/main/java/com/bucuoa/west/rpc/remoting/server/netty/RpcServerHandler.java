@@ -22,6 +22,24 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
        
     }
 
+    /*
+     * (non-Javadoc)
+     * 覆盖了 handlerAdded() 事件处理方法。
+     * 每当从服务端收到新的客户端连接时
+     */
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        super.handlerAdded(ctx);
+    }
+
+    /*
+     * (non-Javadoc)
+     * .覆盖了 handlerRemoved() 事件处理方法。
+     * 每当从服务端收到客户端断开时
+     */
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        super.handlerRemoved(ctx);
+    }
+    
     @Override
     public void channelRead0(final ChannelHandlerContext ctx, RpcRequest request) throws Exception {
         // 创建并初始化 RPC 响应对象
@@ -35,8 +53,8 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
             LOGGER.error("handle result failure", e);
             response.setException(e);
         }
-        // 写入 RPC 响应对象并自动关闭连接
-        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+        // 写入 RPC 响应对象不自动关闭连接
+        ctx.writeAndFlush(response);//.addListener(ChannelFutureListener.CLOSE);
     }
 
     private Object handle(RpcRequest request) throws Exception {

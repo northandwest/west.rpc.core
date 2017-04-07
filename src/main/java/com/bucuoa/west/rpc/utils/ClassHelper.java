@@ -1,4 +1,3 @@
-
 package com.bucuoa.west.rpc.utils;
 
 import java.lang.reflect.Array;
@@ -45,45 +44,16 @@ public class ClassHelper {
         return cl;
     }
 
-    /**
-     * Return the default ClassLoader to use: typically the thread context
-     * ClassLoader, if available; the ClassLoader that loaded the ClassUtils
-     * class will be used as fallback.
-     * <p>
-     * Call this method if you intend to use the thread context ClassLoader in a
-     * scenario where you absolutely need a non-null ClassLoader reference: for
-     * example, for class path resource loading (but not necessarily for
-     * <code>Class.forName</code>, which accepts a <code>null</code> ClassLoader
-     * reference as well).
-     * 
-     * @return the default ClassLoader (never <code>null</code>)
-     * @see java.lang.Thread#getContextClassLoader()
-     */
     public static ClassLoader getClassLoader() {
     	return getClassLoader(ClassHelper.class);
     }
 
-    /**
-     * Same as <code>Class.forName()</code>, except that it works for primitive
-     * types.
-     */
+
     public static Class<?> forName(String name) throws ClassNotFoundException {
         return forName(name, getClassLoader());
     }
 
-    /**
-     * Replacement for <code>Class.forName()</code> that also returns Class
-     * instances for primitives (like "int") and array class names (like
-     * "String[]").
-     * 
-     * @param name the name of the Class
-     * @param classLoader the class loader to use (may be <code>null</code>,
-     *            which indicates the default class loader)
-     * @return Class instance for the supplied name
-     * @throws ClassNotFoundException if the class was not found
-     * @throws LinkageError if the class file could not be loaded
-     * @see Class#forName(String, boolean, ClassLoader)
-     */
+
     public static Class<?> forName(String name, ClassLoader classLoader)
             throws ClassNotFoundException, LinkageError {
 
@@ -120,18 +90,7 @@ public class ClassHelper {
         return classLoaderToUse.loadClass(name);
     }
 
-    /**
-     * Resolve the given class name as primitive class, if appropriate,
-     * according to the JVM's naming rules for primitive classes.
-     * <p>
-     * Also supports the JVM's internal class names for primitive arrays. Does
-     * <i>not</i> support the "[]" suffix notation for primitive arrays; this is
-     * only supported by {@link #forName}.
-     * 
-     * @param name the name of the potentially primitive class
-     * @return the primitive class, or <code>null</code> if the name does not
-     *         denote a primitive class or primitive array class
-     */
+
     public static Class<?> resolvePrimitiveClassName(String name) {
         Class<?> result = null;
         // Most class names will be quite long, considering that they
@@ -148,16 +107,10 @@ public class ClassHelper {
     /** Prefix for internal array class names: "[L" */
     private static final String INTERNAL_ARRAY_PREFIX   = "[L";
 
-    /**
-     * Map with primitive type name as key and corresponding primitive type as
-     * value, for example: "int" -> "int.class".
-     */
+
     private static final Map<String,Class<?>>    primitiveTypeNameMap    = new HashMap<String, Class<?>>(16);
 
-    /**
-     * Map with primitive wrapper type as key and corresponding primitive type
-     * as value, for example: Integer.class -> int.class.
-     */
+
     private static final Map<Class<?>,Class<?>>    primitiveWrapperTypeMap = new HashMap<Class<?>, Class<?>>(8);
 
     static {

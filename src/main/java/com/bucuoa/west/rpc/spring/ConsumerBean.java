@@ -92,8 +92,8 @@ public class ConsumerBean<T> extends Consumer implements InitializingBean,Factor
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("afterPropertiesSet=>{}", System.currentTimeMillis());
 		
-		  MessageSendExecutor.getInstance().setRpcServerLoader(this.getUrl(), RpcSerializeProtocol.valueOf("protostuff"));
-	        ClientStopEventListener listener = new ClientStopEventListener();
+//		  MessageSendExecutor.getInstance().setRpcServerLoader(this.getUrl(), RpcSerializeProtocol.valueOf("protostuff"));
+//	        ClientStopEventListener listener = new ClientStopEventListener();
 //	        eventBus.register(listener);
 	}
 
