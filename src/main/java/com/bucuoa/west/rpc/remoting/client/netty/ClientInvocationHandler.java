@@ -48,7 +48,12 @@ public class ClientInvocationHandler implements InvocationHandler {
 		// 从 RPC 服务地址中解析主机名与端口号
 		String[] array = StringUtil.split(serviceAddress, ":");
 		String host = array[0];
-		int port = Integer.parseInt(array[1]);
+		int port = 14527;
+		try {
+			port = Integer.parseInt(array[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// 创建 RPC 客户端对象并发送 RPC 请求
 		RpcClient client = new RpcClient(host, port);
 		
