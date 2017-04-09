@@ -21,8 +21,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class RpcClient {
 	
 	private Serializer serializer;
-	private RpcResponse response;
-	
+
 	private final String host;
 	private final int port;
 	
@@ -34,30 +33,15 @@ public class RpcClient {
 	public RpcResponse send(RpcRequest request) throws Exception {
 
 		serializer = new ProtostuffSerializer();
+		EventLoopGroup group = new NioEventLoopGroup();
+
 		try {
 
-			// 写入 RPC 请求数据并关闭连接
-
 			// 创建并初始化 Netty 客户端 Bootstrap 对象
-			EventLoopGroup group = new NioEventLoopGroup();
-
-			Bootstrap bootstrap = new Bootstrap();
-			bootstrap.group(group);
-			bootstrap.channel(NioSocketChannel.class);
 			final RpcClientHandler rpcClientHandler = new RpcClientHandler();
-
-			bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-				@Override
-				public void initChannel(SocketChannel channel) throws Exception {
-					ChannelPipeline pipeline = channel.pipeline();
-					pipeline.addLast(new RpcEncoder(RpcRequest.class, serializer)); // 编码RPC请求
-					pipeline.addLast(new RpcDecoder(RpcResponse.class, serializer)); // 解码RPC响应
-					pipeline.addLast(rpcClientHandler); // 处理 RPC 响应
-				}
-			});
-			bootstrap.option(ChannelOption.TCP_NODELAY, true);
-			// 连接 RPC 服务器
-
+			
+			Bootstrap bootstrap = initBootstrap(group, rpcClientHandler);
+			
 			ChannelFuture future = bootstrap.connect(host, port).sync();
 
 			Channel channel = future.channel();
@@ -66,7 +50,26 @@ public class RpcClient {
 			// 返回 RPC 响应对象
 			return rpcClientHandler.getResponse();
 		} finally {
-			// group.shutdownGracefully();
+			 group.shutdownGracefully();
 		}
+	}
+
+	private Bootstrap initBootstrap(EventLoopGroup group, final RpcClientHandler rpcClientHandler) {
+		Bootstrap bootstrap = new Bootstrap();
+		bootstrap.group(group);
+		bootstrap.channel(NioSocketChannel.class);
+
+		bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+			@Override
+			public void initChannel(SocketChannel channel) throws Exception {
+				ChannelPipeline pipeline = channel.pipeline();
+				pipeline.addLast(new RpcEncoder(RpcRequest.class, serializer)); // 编码RPC请求
+				pipeline.addLast(new RpcDecoder(RpcResponse.class, serializer)); // 解码RPC响应
+				pipeline.addLast(rpcClientHandler); // 处理 RPC 响应
+			}
+		});
+		bootstrap.option(ChannelOption.TCP_NODELAY, true);
+		
+		return bootstrap;
 	}
 }
