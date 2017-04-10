@@ -6,7 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 
-public class HeartBeatRespHandler extends SimpleChannelInboundHandler<NettyMessage> {
+public class HeartBeatResponseHandler extends SimpleChannelInboundHandler<NettyMessage> {
 
 	/**
 	 * @see io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel.ChannelHandlerContext,
@@ -31,7 +31,7 @@ public class HeartBeatRespHandler extends SimpleChannelInboundHandler<NettyMessa
 		if (IdleStateEvent.class.isAssignableFrom(evt.getClass())) {
 			IdleStateEvent event = (IdleStateEvent) evt;
 			if (event.state() == IdleState.READER_IDLE) {
-				System.out.println("read 空闲 关闭链接");
+				System.out.println("response read 空闲 关闭链接");
 				ctx.disconnect();
 			}
 		}

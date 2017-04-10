@@ -1,5 +1,7 @@
 package com.bucuoa.west.rpc.remoting.client.netty;
 
+import java.util.concurrent.TimeUnit;
+
 import com.bucuoa.west.rpc.core.RpcRequest;
 import com.bucuoa.west.rpc.core.RpcResponse;
 import com.bucuoa.west.rpc.remoting.protocal.netty.RpcDecoder;
@@ -17,6 +19,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class RpcClient {
 	
@@ -65,6 +68,7 @@ public class RpcClient {
 				ChannelPipeline pipeline = channel.pipeline();
 				pipeline.addLast(new RpcEncoder(RpcRequest.class, serializer)); // 编码RPC请求
 				pipeline.addLast(new RpcDecoder(RpcResponse.class, serializer)); // 解码RPC响应
+				pipeline.addLast(new IdleStateHandler(120, 0, 0, TimeUnit.SECONDS));
 				pipeline.addLast(rpcClientHandler); // 处理 RPC 响应
 			}
 		});

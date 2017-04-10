@@ -25,6 +25,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class RpcServer {
 
@@ -73,6 +74,7 @@ public class RpcServer {
 				pipeline.addLast(new RpcEncoder(RpcResponse.class, serializer)); // 编码
 																					// RPC响应
 				pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, -4, 0)); // 粘包问题
+				pipeline.addLast(new IdleStateHandler(120, 0, 0, TimeUnit.SECONDS));
 				pipeline.addLast(new RpcServerHandler()); // 处理RPC请求
 			}
 		});

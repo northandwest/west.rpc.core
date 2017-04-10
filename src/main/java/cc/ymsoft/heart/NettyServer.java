@@ -2,7 +2,7 @@ package cc.ymsoft.heart;
 
 import java.util.concurrent.TimeUnit;
 
-
+import cc.ymsoft.ping.HeartBeatRespHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
