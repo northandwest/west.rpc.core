@@ -35,8 +35,10 @@ public class NettyServer {
 
 		@Override
 		protected void initChannel(final SocketChannel ch) throws Exception {
-			ch.pipeline().addLast(new RpcDecoder(NettyMessage.class)).addLast(new RpcEncoder(NettyMessage.class))
-					.addLast(new IdleStateHandler(120, 0, 0, TimeUnit.SECONDS)).addLast(new HeartBeatRespHandler());
+			ch.pipeline().addLast(new RpcDecoder(NettyMessage.class))
+						.addLast(new RpcEncoder(NettyMessage.class))
+	//					.addLast(new IdleStateHandler(120, 0, 0, TimeUnit.SECONDS))
+						.addLast(new HeartBeatRespHandler());
 		}
 
 	}

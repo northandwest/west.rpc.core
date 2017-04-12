@@ -17,25 +17,25 @@ public class NettyClient {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
 			Bootstrap b = new Bootstrap();
-			b.group(workerGroup).channel(NioSocketChannel.class).remoteAddress(remoteServer, port)
+			b.group(workerGroup)
+					.channel(NioSocketChannel.class)
+					.remoteAddress(remoteServer, port)
 					.handler(new ChildChannelHandler());
 
 			ChannelFuture f = b.connect();
 			System.out.println("Netty time Client connected at port " + port);
 
 			f.channel().closeFuture().sync();
-		} finally {
+		}finally {
+			
+			TimeUnit.SECONDS.sleep(5);
 			try {
-				TimeUnit.SECONDS.sleep(5);
-				try {
-					System.out.println("重新链接。。。");
-					connect(remoteServer, port);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				System.out.println("重新链接。。。");
+				connect(remoteServer, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
 
@@ -44,8 +44,10 @@ public class NettyClient {
 		@Override
 		protected void initChannel(final SocketChannel ch) throws Exception {
 			// -8表示lengthAdjustment，让解码器从0开始截取字节，并且包含消息头
-			ch.pipeline().addLast(new RpcEncoder(NettyMessage.class)).addLast(new RpcDecoder(NettyMessage.class))
-					.addLast(new IdleStateHandler(120, 10, 0, TimeUnit.SECONDS)).addLast(new HeartBeatReqHandler());
+			ch.pipeline().addLast(new RpcEncoder(NettyMessage.class))
+						.addLast(new RpcDecoder(NettyMessage.class))
+//						.addLast(new IdleStateHandler(120, 10, 0, TimeUnit.SECONDS))
+						.addLast(new HeartBeatReqHandler());
 		}
 
 	}
